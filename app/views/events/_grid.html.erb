@@ -11,10 +11,6 @@
     <% end %>
   </div>
 
-  <% if current_user.able_to_edit?(@event) %>
-    <%= render 'events/add_invitation' %>
-  <% end %>
-
   <div class="options">
     <table class="touch-scrollable">
       <thead>
@@ -30,14 +26,6 @@
         </tr>
       </thead>
       <tbody>
-
-        <% if current_user.able_to_edit?(@event) %>
-          <tr id="blank">
-            <% @event.suggestions.each do |suggestion| %>
-              <td></td>
-            <% end %>
-          </tr>
-        <% end %>
 
         <% @event.invitees_with_current_user_first.each do |invitee| %>
           <% if display_invitee_in_grid?(@event, invitee) %>
@@ -76,6 +64,16 @@
 
   <div id="invitees" <% if current_user.able_to_edit?(@event) %>class="blank"<% end %>>
     <table>
+      <thead>
+        <tr>
+          <th>
+            The Invitees
+            <span class="secondary">
+              <%= @event.other_invitees_count %> total
+            </span>
+          </th>
+        </tr>
+      </thead>
       <tbody>
 
         <% @event.invitees_with_current_user_first.each do |invitee| %>
