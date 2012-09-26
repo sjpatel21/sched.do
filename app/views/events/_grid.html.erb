@@ -105,10 +105,14 @@
 </div>
 
 <% if @event.groups.any? & current_user.able_to_edit?(@event)  %>
-  <ul id="groups">
+  <section class="invited-yammer-groups">
     <h4>Invited Yammer Groups</h4>
-    <% @event.groups.each do |group| %>
-      <li><%= group.name %></li>
-    <% end %>
-  </ul>
+    <ul id="groups">
+      <% @event.groups.each do |group| %>
+        <li>
+          <div class="group-name"><%= group.name %></div>
+        </li>
+      <% end %>
+    </ul>
+  <section>
 <% end %>

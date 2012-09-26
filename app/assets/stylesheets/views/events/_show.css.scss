@@ -235,29 +235,40 @@ div.show-event {
     }
   }
 
-  ul#groups {
-    border-top: 1px solid darken($bg-color, 10%);
-    margin-bottom: 0;
-    margin-top: 20px;
-    padding: 10px;
+  section.invited-yammer-groups {
+    border: 1px solid darken($bg-color, 20%);
 
     h4 {
-      margin-bottom: 16px;
+      background-color: $bg-color;
+      border-bottom: 1px solid darken($bg-color, 20%);
+      margin-bottom: 0px;
+      padding: 10px 15px;
     }
 
-    li {
-      background: darken($bg-color, 3%);
-      background-image: url(group.svg);
-      background-position: 10px center;
-      background-repeat: no-repeat;
-      @include border-radius(4px);
-      display: inline-block;
-      @include fill-parent();
-      font-size: 0.9em;
-      list-style: none;
-      margin-bottom: 10px;
-      margin-right: 10px;
-      padding: 0.5em 1em 0.5em 30px;
+    ul#groups {
+      margin: 0;
+      padding: 0px 10px;
+
+      li {
+        border-bottom: 1px solid darken($bg-color, 10%);
+        list-style: none;
+        padding: 0.8em 0px;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        div.group-name {
+          background: darken($bg-color, 3%);
+          background-image: url(group.svg);
+          background-position: 10px center;
+          background-repeat: no-repeat;
+          @include border-radius(4px);
+          font-size: 0.9em;
+          @include inline-block;
+          padding: 0.5em 1em 0.5em 30px;
+        }
+      }
     }
   }
 
