@@ -163,17 +163,6 @@ $(document).ready(function() {
     clip.reposition();
   });
 
-  // Display "Invite" button on auto-complete
-  $('#auto-complete').keyup(function(){
-    var inviteButton = $(this).parents("form").find('.add-invitee');
-    if($(this).val() != ""){
-      inviteButton.show();
-    } else {
-      inviteButton.hide();
-    }
-  });
-
-
   // Shrink invitee name/email text size if it is too large to fit in the table cell
   $('div#invitees td span').each(function(){
     var stringLength = $(this).html().length;
