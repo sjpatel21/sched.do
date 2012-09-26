@@ -151,12 +151,12 @@ $(document).ready(function() {
   var clip = new ZeroClipboard.Client();
 
   clip.addEventListener( 'mouseDown', function(client) {
-    clip.setText( $('input#event-url').val());
-    $('input#copy-url').val('URL Copied!');
+    clip.setText( $('div.copy-event-url').data('event-url'));
+    $('div.copy-event-url').text('URL Is Copied');
   });
 
-  if( $('#event-url').length > 0) {
-    clip.glue( 'copy-url', 'copy-url-container' );
+  if( $('#copy-event-url').length > 0) {
+    clip.glue( 'copy-event-url', 'copy-url-container' );
   }
 
   $(window).resize(function(){

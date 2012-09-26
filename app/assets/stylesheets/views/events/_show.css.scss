@@ -129,19 +129,32 @@ div.show-event {
     }
 
     .alt-invite {
-      //display: none;
+      display: none;
       height: 34px;
-      right: 20px;
+      right: 15px;
       position: absolute;
       top: 15px;
 
-      a.email-invite, a.copy-url {
+      #copy-url-container {
+        position: relative;
+      }
+
+      a.email-invite, div.copy-event-url {
         @extend .button;
         @include box-sizing(border-box);
+        cursor: pointer;
         height: 100%;
         @include inline-block;
 
+        &.copy-event-url {
+          width: 140px;
+          padding-left: 0px;
+          padding-right: 0px;
+          text-align: center;
+        }
+
         img {
+          display: none;
           margin: 0em 0.4em 0.1em 0em;
           vertical-align: middle;
         }
