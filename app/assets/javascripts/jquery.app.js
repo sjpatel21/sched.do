@@ -12,6 +12,8 @@
 
 $(document).ready(function() {
   $("#new-event").leanModal({closeButton: ".modal-close"})
+  $("a[rel*=yammer-invite]").leanModal({closeButton: ".modal-close"})
+  $("a[rel*=email-invite]").leanModal({closeButton: ".modal-close"})
 
   var placeholderPollyfill = function() {
     $('input, textarea').placeholder();

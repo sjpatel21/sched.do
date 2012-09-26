@@ -26,7 +26,7 @@ div.show-event {
 
   section.sub-head {
     @include clearfix;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding: 10px 0px 0px;
 
     span {
@@ -55,7 +55,7 @@ div.show-event {
       float: right;
 
       a.remind-all {
-        @extend .orange-button;
+        @extend .blue-button;
         @include border-radius(3px);
         font-size: 0.8em;
         padding: 2px 5px;
@@ -158,11 +158,23 @@ div.show-event {
     }
 
     &.invitee-sharing {
-      .alt-invite {
-        h4 {
-          @include inline-block;
-          margin-right: 10px;
-          position: static;
+      h4 {
+        @include inline-block;
+        margin-right: 10px;
+        position: static;
+        vertical-align: middle;
+      }
+
+      a.email-invite, a.yammer-invite, a.copy-url {
+        @extend .button;
+        @include box-sizing(border-box);
+        height: 100%;
+        @include inline-block;
+        margin-right: 6px;
+        padding: 5px 12px 4px;
+
+        img {
+          margin: 0em 0.4em 0.1em 0em;
           vertical-align: middle;
         }
       }
