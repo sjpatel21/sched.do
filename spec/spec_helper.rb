@@ -1,3 +1,7 @@
+ENV['RAILS_ENV'] ||= 'test'
+require 'rubygems'
+require 'spork'
+
 # SimpleCov calculates test coverage on rake. Output at 'coverage/index.html'
 require 'simplecov'
 
@@ -8,62 +12,38 @@ SimpleCov.start do
   add_filter "/lib/"
 end
 
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'rspec/autorun'
-require 'turnip/capybara'
-require 'email_spec'
+Spork.prefork do
+  require File.expand_path('../../config/environment', __FILE__)
+  require 'rspec/rails'
+  require 'rspec/autorun'
+  require 'turnip/capybara'
+  require 'email_spec'
+  Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f }
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  Capybara.javascript_driver = :webkit
+  DatabaseCleaner.strategy = :truncation
 
-# Capybara-webkit
-Capybara.javascript_driver = :webkit
+  RSpec.configure do |config|
+    config.infer_base_class_for_anonymous_controllers = false
+    config.include(ActionView::Helpers::TextHelper)
+    config.include(DelayedJob::Matchers)
+    config.include(EmailSpec::Helpers)
+    config.include(EmailSpec::Matchers)
+    config.include(FactoryGirl::Syntax::Default)
+    config.mock_with(:mocha)
+    config.use_transactional_fixtures = true
 
-DatabaseCleaner.strategy = :truncation
+    Delayed::Worker.delay_jobs = true
 
-RSpec.configure do |config|
-  config.mock_with :mocha
-  config.include FactoryGirl::Syntax::Default
-  config.include EmailSpec::Helpers
-  config.include EmailSpec::Matchers
-  config.include ActionView::Helpers::TextHelper
-  config.include DelayedJob::Matchers
-
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
-
-  # If true, the base class of anonymous controllers will be inferred
-  # automatically. This will be the default behavior in future versions of
-  # rspec-rails.
-  config.infer_base_class_for_anonymous_controllers = false
-
-  # Delay some jobs under Rspec
-  Delayed::Worker.delay_jobs = true
-
-  # Acceptance tests before block
-  config.before(:each, type: :request) do
-
-    # Clean before each run, otherwise JS scenarios leave records in the db
-    DatabaseCleaner.clean
-    ActionMailer::Base.deliveries.clear
-    Dotenv.load
-
-    # Do not run Delayed Jobs during acceptance testing
-    Delayed::Worker.delay_jobs = false
+    config.before(:each, type: :request) do
+      ActionMailer::Base.deliveries.clear
+      Delayed::Worker.delay_jobs = false
+      Dotenv.load
+    end
   end
+end
 
-  # Unit tests before block
-  config.before(:each) do
-    FakeYammer.reset
-  end
-
-  # Unit tests after block
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
+Spork.each_run do
+  FakeYammer.reset
+  DatabaseCleaner.clean
 end
