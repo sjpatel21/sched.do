@@ -6,7 +6,7 @@ GIT
     cocoon (1.0.20)
 
 GIT
-  remote: https://dc2c9edbddec893a0b71709d6cd36fab963ee11b:x-oauth-basic@github.com/yammer/yam.git
+  remote: https://6f1469a5b0d1872bdc7006b445a62ae0cbd8b0b5:x-oauth-basic@github.com/yammer/yam.git
   revision: b1a09af39fb7b81db3511eadb133b22d9929896e
   specs:
     yam (0.0.2)
@@ -272,8 +272,6 @@ GEM
     sprockets-redirect (0.1.0)
       activesupport (>= 3.1.0)
       rack
-    strip_attributes (1.1.1)
-      activemodel (~> 3.0)
     swfobject-rails (1.1.1)
       rails (~> 3.2)
     tddium (1.5.8)
@@ -355,7 +353,6 @@ DEPENDENCIES
   simplecov
   sinatra
   sprockets-redirect
-  strip_attributes (~> 1.1)
   swfobject-rails
   tddium
   thin
