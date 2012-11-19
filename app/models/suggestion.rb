@@ -4,7 +4,7 @@ class Suggestion < ActiveRecord::Base
   attr_accessible :primary, :secondary, :event
 
   belongs_to :event
-  has_many :votes, dependent: :destroy
+  has_many :votes
 
   def vote_count
     persisted_votes.size

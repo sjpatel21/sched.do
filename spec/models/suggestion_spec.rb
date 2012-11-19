@@ -4,7 +4,7 @@ describe Suggestion do
   it { should validate_presence_of(:primary).with_message(/This field is required/) }
 
   it { should belong_to :event }
-  it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:votes) }
 
   it { should allow_mass_assignment_of(:primary) }
   it { should allow_mass_assignment_of(:secondary) }
