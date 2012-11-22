@@ -8,8 +8,13 @@ class ActivityCreator
   end
 
   def post
-    Yam.post(
-      '/activity',
+    Yam.post('/activity', json_payload)
+  rescue Faraday::Error::ClientError
+    @user.expire_token
+  end
+
+  def json_payload
+    {
       activity: {
         actor: {
           name: @user.name,
@@ -25,8 +30,6 @@ class ActivityCreator
       },
       message: '',
       users: @event.invitees_for_json
-    )
-  rescue Faraday::Error::ClientError
-    @user.expire_token
+    }
   end
 end
