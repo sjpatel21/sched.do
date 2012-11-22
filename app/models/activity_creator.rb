@@ -10,6 +10,7 @@ class ActivityCreator
   def post
     Yam.post('/activity', json_payload)
   rescue Faraday::Error::ClientError
+    Rails.logger.error("ActivityCreator has failed. JSON was #{json_payload}")
     @user.expire_token
   end
 

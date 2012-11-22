@@ -19,7 +19,6 @@ describe ActivityCreator, '#post' do
   end
 
   it 'expires the access_token if it is stale' do
-    Delayed::Worker.delay_jobs = false
     user = build_user('OLDTOKEN')
     Yam.oauth_token = user.access_token
     action = 'vote'
@@ -28,8 +27,20 @@ describe ActivityCreator, '#post' do
     ActivityCreator.new(user: user, action: action, event: event).post
 
     user.access_token.should == 'EXPIRED'
-    Delayed::Worker.delay_jobs = true
     Yam.set_defaults
+  end
+
+  it 'logs an error if the access token is stale' do
+    fake_logger = stub(error: 'blah')
+    Rails.stubs(logger: fake_logger)
+    user = build_user('OLDTOKEN')
+    Yam.oauth_token = user.access_token
+    action = 'vote'
+    event = build_stubbed(:event_with_invitees)
+
+    ActivityCreator.new(user, action, event).post
+
+    fake_logger.should have_received(:error)
   end
 
   private
