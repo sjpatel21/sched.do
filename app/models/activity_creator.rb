@@ -8,7 +8,7 @@ class ActivityCreator
   end
 
   def post
-    Yam.delay.post(
+    Yam.post(
       '/activity',
       activity: {
         actor: {
