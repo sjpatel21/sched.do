@@ -3,6 +3,16 @@ require 'spec_helper'
 describe ActivityCreator, '#post' do
   include DelayedJobSpecHelper
 
+  it 'configures Yam before posting an activity story' do
+    user = build_user
+    action = 'vote'
+    event = build_stubbed(:event_with_invitees)
+
+    ActivityCreator.new(user, action, event).post
+
+    Yam.oauth_token.should == user.access_token
+  end
+
   it 'posts to the Yammer API on post' do
     Yam.stubs(:post)
     user = build_user
@@ -12,10 +22,7 @@ describe ActivityCreator, '#post' do
     ActivityCreator.new(user: user, action: action, event: event).post
     work_off_delayed_jobs
 
-    Yam.should have_received(:post).with(
-      '/activity',
-      expected_json(event)
-   )
+    Yam.should have_received(:post).with('/activity', expected_json(event))
   end
 
   it 'expires the access_token if it is stale' do

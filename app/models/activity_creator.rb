@@ -8,10 +8,25 @@ class ActivityCreator
   end
 
   def post
+    configure_yammer
     Yam.post('/activity', json_payload)
   rescue Faraday::Error::ClientError
     Rails.logger.error("ActivityCreator has failed. JSON was #{json_payload}")
     @user.expire_token
+  end
+
+  private
+
+  def configure_yammer
+    Yam.configure do |config|
+      if @user.yammer_user?
+        config.oauth_token = @user.access_token
+
+        if @user.yammer_staging
+          config.endpoint = YAMMER_STAGING_ENDPOINT
+        end
+      end
+    end
   end
 
   def json_payload
