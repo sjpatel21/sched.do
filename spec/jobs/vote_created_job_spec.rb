@@ -53,7 +53,7 @@ describe VoteCreatedJob, '.error' do
   it 'sends Airbrake an exception if the job fails' do
     vote = build_stubbed(:vote)
     Airbrake.stubs(:notify)
-    exception = 'Hey! you did something wrong!'
+    exception = 'Hey! You did something wrong!'
 
     job = VoteCreatedJob.new(vote.id)
     job.error(job, exception)
