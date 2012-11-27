@@ -13,19 +13,6 @@ describe VoteCreatedJob, '.enqueue' do
   end
 end
 
-describe VoteCreatedJob, '.error' do
-  it 'sends Airbrake an exception if the job fails' do
-    vote = build_stubbed(:vote)
-    Airbrake.stubs(:notify)
-    exception = 'Hey! you did something wrong!'
-
-    job = VoteCreatedJob.new(vote.id)
-    job.error(job, exception)
-
-    Airbrake.should have_received(:notify).with(exception)
-  end
-end
-
 describe VoteCreatedJob, '#perform' do
   it 'creates a Yammer activity message' do
     vote = build_stubbed(:vote)
@@ -59,5 +46,18 @@ describe VoteCreatedJob, '#perform' do
     VoteCreatedJob.new.perform
 
     Yam.oauth_token.should == voter.access_token
+  end
+end
+
+describe VoteCreatedJob, '.error' do
+  it 'sends Airbrake an exception if the job fails' do
+    vote = build_stubbed(:vote)
+    Airbrake.stubs(:notify)
+    exception = 'Hey! you did something wrong!'
+
+    job = VoteCreatedJob.new(vote.id)
+    job.error(job, exception)
+
+    Airbrake.should have_received(:notify).with(exception)
   end
 end
