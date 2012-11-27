@@ -3,9 +3,9 @@ require 'spec_helper'
 describe VoteCreatedJob, '.enqueue' do
   it 'enqueues the job' do
     vote = build_stubbed(:vote)
-    Vote.stubs find: vote
+    Vote.stubs(find: vote)
 
-    VoteCreatedJob.enqueue vote
+    VoteCreatedJob.enqueue(vote)
 
     should enqueue_delayed_job('VoteCreatedJob').
       with_attributes(vote_id: vote.id).
