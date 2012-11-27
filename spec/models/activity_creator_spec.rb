@@ -8,7 +8,7 @@ describe ActivityCreator, '#post' do
     action = 'vote'
     event = build_stubbed(:event_with_invitees)
 
-    ActivityCreator.new(user, action, event).post
+    ActivityCreator.new(user: user, action: action, event: event).post
 
     Yam.oauth_token.should == user.access_token
   end
@@ -45,7 +45,7 @@ describe ActivityCreator, '#post' do
     action = 'vote'
     event = build_stubbed(:event_with_invitees)
 
-    ActivityCreator.new(user, action, event).post
+    ActivityCreator.new(user: user, action: action, event: event).post
 
     fake_logger.should have_received(:error)
   end
